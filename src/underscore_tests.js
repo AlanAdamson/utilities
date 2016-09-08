@@ -16,48 +16,126 @@ var _ = { };
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
   _.first = function(array, n) {
+    if(isNaN(n)){
+      return array[0];
+    }
+
+    if(n > array.length){
+      return array;
+    }
+
+    var newArray = [];
+    var j = 0;
+    for(var i = 0; i < n; i++){
+      newArray[j++] = array[i];
+    }
+    return newArray;
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    if(isNaN(n)){
+      return array[array.length - 1];
+    }
+
+    if(n > array.length){
+      return array;
+    }
+
+    var newArray = [];
+    var j = array.length;
+    for(var i = array.length - n; i < array.length; i++){ //array = 1,2,3 | i = 3
+      newArray.push(array[i]);
+    }
+    return newArray;
   };
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   _.each = function(collection, iterator) {
-  };
+    for(var i = 0; i < collection.length; i++){
+      iterator(value, key, collection);
+    }
+  }; //check if it is an array or an object
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
+    for(var i = 0; i < array.length; i++){
+      if(array[i] === target){
+        return i;
+      }
+    }
+    return -1;
   };
 
   // Return all elements of an array that pass a truth test ('iterator' function argument)
   _.filter = function(collection, iterator) {
+      var newArray = [];
+      for(var i = 0; i < collection.length; i++){
+        if(iterator(collection[i])){
+          var item = collection[i];
+          newArray.push(item);
+        }
+      }
+      return newArray;
   };
 
   // Return all elements of an array that don't pass a truth test (the 'iterator' function argument)
   _.reject = function(collection, iterator) {
+      var newArray = [];
+      for(var i = 0; i < collection.length; i++){
+        if(!iterator(collection[i])){
+          var item = collection[i];
+          newArray.push(item);
+        }
+      }
+      return newArray;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+  var seenItems = {};
+  var uniqueArray = [];
+  var j = 0;
+  for(var i = 0; i < array.length; i++){
+    var item = array[i];
+    if(seenItems[item] !== 1){
+      seenItems[item] = 1;
+      uniqueArray[j++] = item;
+    }
+  }
+  return uniqueArray;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
+      var newArray = [];
+      for(var i = 0; i < array.length; i++){
+        var item = iterator(array[i]);
+        newArray.push(item);
+      }
+      return newArray;
   };
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(array, propertyName) {
+    var newArray = [];
+    for(var i = 0; i < array.length; i++){
+      var item = array[i][propertyName];
+      newArray.push(item);
+    }
+    return newArray;
   };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
+        Array.prototype.[methodName](list[args]);
+        return list[args];
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -68,11 +146,21 @@ var _ = { };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
+    for(var i = 0; i < collection.length; i++) {
+      if(collection[i] === target) {
+        return true;
+      }
+    }
+    return false;
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    /*for(var i = 0; i < collection.length; i++) {
+      if(collection[i] === target) {
+
+      }*/
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
